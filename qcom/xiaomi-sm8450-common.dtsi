@@ -96,6 +96,7 @@
 
 &pm8350b_haptics {
 	status = "ok";
+	qcom,fifo-vmax-mv = <4200>;
 };
 
 &pm8350c_switch0 {
