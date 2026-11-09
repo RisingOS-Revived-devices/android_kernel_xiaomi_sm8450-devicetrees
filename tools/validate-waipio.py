@@ -270,9 +270,10 @@ def check_zeus_baseline(path, baseline):
 waipio_boards = ['zeus', 'cupid']
 cape_boards = ['diting', 'mayfly', 'mondrian', 'thor', 'unicorn', 'zizhan']
 names = (
-    ['waipio', 'waipio-v2', 'cape']
+    ['waipio', 'waipio-v2', 'cape', 'ukee']
     + [board + '-sm8450-pm8008-overlay' for board in waipio_boards]
     + [board + '-sm8475-pm8008-overlay' for board in cape_boards]
+    + ['marble-sm7475-pm8008-overlay']
 )
 failed = False
 for name, status, error in concurrent.futures.ThreadPoolExecutor().map(build, names):
@@ -282,10 +283,10 @@ if failed:
     sys.exit(1)
 results = []
 adsp_span = firmware_span(args.adsp_metadata) if args.adsp_metadata else None
-for base in ['waipio', 'waipio-v2', 'cape']:
-    boards = waipio_boards if base != 'cape' else cape_boards
+for base in ['waipio', 'waipio-v2', 'cape', 'ukee']:
+    boards = ['marble'] if base == 'ukee' else cape_boards if base == 'cape' else waipio_boards
     for board in boards:
-        soc = 'sm8475' if base == 'cape' else 'sm8450'
+        soc = 'sm7475' if base == 'ukee' else 'sm8475' if base == 'cape' else 'sm8450'
         overlay = out/f'{board}-{soc}-pm8008-overlay.dtbo'
         combined = out/f'{base}-{board}.dtb'
         proc = subprocess.run([args.fdtoverlay, '-i', str(out/(base+'.dtb')), '-o', str(combined), str(overlay)], capture_output=True, text=True)
