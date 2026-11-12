@@ -684,3 +684,26 @@
 &qseecom_mem {
 	size = <0x0 0x2400000>;
 };
+
+/* No PMR735B is fitted (SID 5 does not answer and AOP has no ldof resources) */
+&spmi_bus {
+	qcom,pmr735b@5 {
+		status = "disabled";
+	};
+};
+
+&qupv3_se5_i2c {
+	/* No FM stack ships and nothing drives the RTC6226 */
+	nq@64 {
+		status = "disabled";
+	};
+
+	/* PM8008I does not answer on this bus and nothing here uses its regulators (camera uses PM8008J) */
+	pm8008i@8 {
+		status = "disabled";
+	};
+
+	pm8008i@9 {
+		status = "disabled";
+	};
+};
