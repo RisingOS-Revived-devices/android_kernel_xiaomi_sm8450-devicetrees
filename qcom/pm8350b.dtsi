@@ -363,6 +363,8 @@
 	};
 
 	socd {
+		/* Without a sensor 6.6 thermal_of stops the zone lookup here for every later zone */
+		status = "disabled";
 		polling-delay-passive = <100>;
 		polling-delay = <0>;
 		//thermal-sensors = <&bcl_soc>;
